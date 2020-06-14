@@ -2,8 +2,7 @@
 //  FoodTrackerTests.swift
 //  FoodTrackerTests
 //
-//  Created by 折原　ダビデ竜 on 2020/01/20.
-//
+
 
 import XCTest
 @testable import FoodTracker
