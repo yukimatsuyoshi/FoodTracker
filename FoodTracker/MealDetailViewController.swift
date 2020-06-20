@@ -21,14 +21,32 @@ class MealDetailViewController: UIViewController {
 		// Handle the text field’s user input through delegate callbacks.
 		nameTextField.delegate = self
         
+        // Set up  views if editing an existing Meal.
+        if let meal = meal {
+            navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating
+        }
+        
         // Enable the Save button only if the text field has a valid Meal name.
         updateSaveButtonState()
 	}
 	
     // MARK: Navigation
     @IBAction func chancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        // Depending on style of presentation (modal or push presentation), this view controller deeds to be dismissed in tew different ways.
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddMealMode {
+            dismiss(animated: true, completion: nil)
+        } else if let owingNavigationController = navigationController {
+            owingNavigationController.popViewController(animated: true)
+        } else {
+            fatalError("The MealDetailViewController is not inside a navigation controller.")
+        }
     }
+    
     // This method lets you configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
